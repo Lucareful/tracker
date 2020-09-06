@@ -1,0 +1,17 @@
+# pycharm
+.idea/
+
+# env
+env
+
+# 缓存文件
+__pycache__/
+*.py[cod]
+*$py.class
+
+# config
+local_settings.py
+
+# database migrattions
+*/migrations/*.py
+!*/migrations/__init__.py
