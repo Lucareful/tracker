@@ -24,7 +24,7 @@ SECRET_KEY = '32q*=sl2-k-(%0&(xi&(p6+pw2ke+5z=ymi9-*lqac2)zav@x*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -125,6 +125,6 @@ sign = None
 
 # 导入自己的本地配置
 try:
-    from .local_settings import *
+    from .local_settings import *  # type:ignore
 except ImportError:
     pass

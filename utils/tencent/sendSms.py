@@ -16,6 +16,16 @@ from tarcker.settings import sign
 # 导入 SMS 模块的client models
 
 
+class requestSms(models.SendSmsRequest):
+    """
+    重写SendSmsRequest类的构造方法，使其可以接收字典一次实例化
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__()
+        self.__dict__.update(kwargs)
+
+
 class sendMessage(object):
     """
     实例化secretId 和 secretKey sign
@@ -42,14 +52,14 @@ class sendMessage(object):
         messageDict = {
             'PhoneNumberSet': PhoneNumberSet,
             'TemplateID': TemplateID,
-            'SmsSdkAppid': secretId,
+            'SmsSdkAppid': int(secretId),
             'Sign': sign,
             'TemplateParamSet': TemplateParamSet,
 
         }
 
         # 实例化一个请求对象，根据调用的接口和实际情况，可以进一步设置请求参数
-        req = models.SendSmsRequest(messageDict)
+        req = requestSms(**messageDict)
 
         try:
             # 通过 client 对象调用 SendSms 方法发起请求。注意请求方法名与请求对象是对应的
@@ -58,7 +68,7 @@ class sendMessage(object):
             print(resp.to_json_string(indent=1))
         except TencentCloudSDKException as err:
             print(err)
-        return resp.to_json_string(indent=2) or None
+        return None
 
 
 # from qcloudsms_py import SmsMultiSender, SmsSingleSender
@@ -107,7 +117,6 @@ class sendMessage(object):
 #         except HTTPError as e:
 #             response = {'result': e, 'errmsg': "网络异常发送失败"}
 #         return response
-
 if __name__ == '__main__':
     res = sendMessage(secretId, secretKey, sign)
     import random
