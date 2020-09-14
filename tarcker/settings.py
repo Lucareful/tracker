@@ -118,9 +118,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# -----短信配置-----
-secretId = None
-secretKey = None
+# -----腾讯云api配置-----
+apiId = None
+apiKey = None
+
+# ----腾讯云短信配置-----
+smsAppId = None
 sign = None
 
 # 导入自己的本地配置
