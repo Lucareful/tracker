@@ -6,12 +6,12 @@
 @time: 9/12/2020 10:20 AM
 '''
 import random
-
+from tarcker.settings import apiId, apiKey
+from tarcker.settings import sign, smsAppId
 from utils.tencent.sendSms import sendMessage
 
-# 实例化短信对象
-# sms = sendMessage()
-# 发送单条短信
-# code = random.randrange(10000, 99999)
-# res = sms.send_sms_single('17371246916', 713710, [code])
-# print(res)
+
+if __name__ == '__main__':
+    res = sendMessage(apiId, apiKey, sign, smsAppId)
+    code = random.randrange(10000, 99999)
+    res.send_message(['+8618305299746'], '713710', ['21378'])
