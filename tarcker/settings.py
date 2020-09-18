@@ -11,6 +11,24 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 from pathlib import Path
 
+
+# -----腾讯云api配置-----
+apiId = None
+apiKey = None
+
+# ----腾讯云短信配置-----
+smsAppId = None
+sign = None
+
+# redis 密码
+redisPass = None
+
+# 导入自己的本地配置
+try:
+    from .local_settings import *  # type:ignore
+except ImportError:
+    pass
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -53,7 +71,7 @@ ROOT_URLCONF = 'tarcker.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [BASE_DIR / 'web/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -98,6 +116,22 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# django-redis 配置
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'CONNECTION_POOL_KWARGS': {
+                'max_connections': 100,
+                'encoding': 'utf-8',
+            },
+            'PASSWORD': redisPass,
+        }
+    }
+}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -117,17 +151,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
-# -----腾讯云api配置-----
-apiId = None
-apiKey = None
-
-# ----腾讯云短信配置-----
-smsAppId = None
-sign = None
-
-# 导入自己的本地配置
-try:
-    from .local_settings import *  # type:ignore
-except ImportError:
-    pass
