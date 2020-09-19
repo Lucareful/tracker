@@ -3,11 +3,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{% block title %} {% endblock %}</title>
+
+    {% block css %}
     <link rel="stylesheet" href="{% static 'plugin/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'plugin/font-awesome/css/font-awesome.min.css' %}">
+    {% endblock %}
+
 </head>
 <body>
 
+{% block content %}
+    <h1>头部菜单</h1>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'plugin/bootstrap/js/bootstrap.min.js' %}"></script>
+{% endblock %}
 </body>
 </html>
