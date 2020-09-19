@@ -7,7 +7,10 @@
 '''
 
 from django.urls import path, include
+from web.views import account
+
 
 urlpatterns = [
-    path('sms', include('web.urls')),
+    # path('sms', include('web.urls')),
+    path(r'register', account.login),
 ]

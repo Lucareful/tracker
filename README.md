@@ -11,3 +11,22 @@
 ```shell
  pip install tencentcloud-sdk-python
 ```
+## Django-redis
+- django-redis的使用
+```python
+# django-redis 配置
+CACHES = {
+    'default': { # 默认配置
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'CONNECTION_POOL_KWARGS': {
+                'max_connections': 100,#最大连接数
+                'encoding': 'utf-8',
+            },
+            'PASSWORD': "密码",
+        }
+    }
+}
+```
