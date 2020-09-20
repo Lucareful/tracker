@@ -7,7 +7,9 @@
 '''
 
 from django.shortcuts import render
+from web.forms.account import RegisterModelForm
 
 
 def login(request):
-    return render(request, 'register.html')
+    form = RegisterModelForm()
+    return render(request, 'register.html', {'form': form})
