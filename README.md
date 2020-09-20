@@ -1,5 +1,6 @@
 # 一个基于Django的bug追踪和任务管理平台
-
+> 参考哔哩哔哩视频：https://www.bilibili.com/video/BV1uA411b77M
+> gittee:https://gitee.com/wupeiqi/s25
 ## 腾讯云短信接口
 ### 提供功能
 - 注册验证码
