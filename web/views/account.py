@@ -13,3 +13,7 @@ from web.forms.account import RegisterModelForm
 def login(request):
     form = RegisterModelForm()
     return render(request, 'register.html', {'form': form})
+
+
+def sendSms(request):
+    """发送短信"""
