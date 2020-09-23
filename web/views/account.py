@@ -6,8 +6,8 @@
 @time: 9/18/2020 10:27 PM
 '''
 
-from django.shortcuts import render
-from web.forms.account import RegisterModelForm
+from django.shortcuts import render, HttpResponse
+from web.forms.account import RegisterModelForm, SendSmsForm
 
 
 def login(request):
@@ -17,3 +17,7 @@ def login(request):
 
 def sendSms(request):
     """发送短信"""
+    form = SendSmsForm(request, data=request.GET)
+    if form.is_valid():
+        pass
+    return HttpResponse('成功')

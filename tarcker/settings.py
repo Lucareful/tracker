@@ -23,6 +23,9 @@ sign = None
 # redis 密码
 redisPass = None
 
+# 短信模板
+Tenct_Sms_Template: dict = {}
+
 # 导入自己的本地配置
 try:
     from .local_settings import *  # type:ignore
@@ -137,7 +140,7 @@ CACHES = {
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
 
 TIME_ZONE = 'UTC'
 
