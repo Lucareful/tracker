@@ -5,16 +5,20 @@
 @file: account.py
 @time: 9/20/2020 5:11 PM
 '''
+import random
+
 from django import forms
 
 from tarcker import settings
 from web import models
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
+from utils.tencent.sendSms import sendMessage
+from tarcker.settings import apiId, apiKey
+from tarcker.settings import sign, smsAppId
 
 
 class RegisterModelForm(forms.ModelForm):
-    mobilePhone = forms.CharField(label='手机号', validators=[RegexValidator(r'\d{3}-\d{8}|\d{4}-\d{7}', '手机号格式错误'), ])
     password = forms.CharField(
         label='密码',
         widget=forms.PasswordInput()
@@ -23,6 +27,7 @@ class RegisterModelForm(forms.ModelForm):
         label='确认密码',
         widget=forms.PasswordInput()
     )
+    mobilePhone = forms.CharField(label='手机号', validators=[RegexValidator(r'\d{3}-\d{8}|\d{4}-\d{7}', '手机号格式错误'), ])
     code = forms.CharField(
         label='验证码',
         widget=forms.TextInput()
@@ -65,4 +70,8 @@ class SendSmsForm(forms.Form):
         exits = models.UserInfo.objects.filter(mobilePhone=mobilePhone).exists()
         if exits:
             raise ValidationError('手机号已经存在')
-        return mobilePhone
+
+        # 发送短信
+        smsClient = sendMessage(apiId, apiKey, sign, smsAppId)
+        code = random.randrange(10000, 99999)
+        sms = smsClient.send_message(['+86' + mobilePhone], templateId, [code])

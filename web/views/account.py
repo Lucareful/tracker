@@ -7,11 +7,13 @@
 '''
 
 from django.shortcuts import render, HttpResponse
+from django.http import JsonResponse
 from web.forms.account import RegisterModelForm, SendSmsForm
 
 
-def login(request):
+def register(request):
     form = RegisterModelForm()
+
     return render(request, 'register.html', {'form': form})
 
 
@@ -19,5 +21,5 @@ def sendSms(request):
     """发送短信"""
     form = SendSmsForm(request, data=request.GET)
     if form.is_valid():
-        pass
+        return JsonResponse({'status': True})
     return HttpResponse('成功')
