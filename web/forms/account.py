@@ -6,6 +6,7 @@
 @time: 9/20/2020 5:11 PM
 '''
 import random
+import hashlib
 
 from django import forms
 
@@ -27,7 +28,7 @@ class RegisterModelForm(forms.ModelForm):
         label='确认密码',
         widget=forms.PasswordInput()
     )
-    mobilePhone = forms.CharField(label='手机号', validators=[RegexValidator(r'\d{3}-\d{8}|\d{4}-\d{7}', '手机号格式错误'), ])
+    mobilePhone = forms.CharField(label='手机号', validators=[RegexValidator(r'^[1]([3-9])[0-9]{9}$', '手机号格式错误'), ])
     code = forms.CharField(
         label='验证码',
         widget=forms.TextInput()
@@ -42,6 +43,60 @@ class RegisterModelForm(forms.ModelForm):
         for name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
             field.widget.attrs['placeholder'] = f'请输入{field.label}'
+
+    def clean_username(self):
+        """
+        用户名校验
+        """
+        username = self.cleaned_data['username']
+        exist = models.UserInfo.objects.filter(username=username).exists()
+        if exist:
+            raise ValidationError('用户名已经存在')
+        return username
+
+    def clean_password(self):
+        """
+        确认密码并加密
+        """
+        password = self.cleaned_data['password']
+
+        return hashlib.md5(password)
+
+    def clean_confirmPassWord(self):
+        """
+        密码确认校验
+        """
+        password = self.cleaned_data['password']
+        confirmPassWord = self.cleaned_data['confirmPassWord']
+
+        if password != hashlib.md5(confirmPassWord):
+            raise ValidationError('两次密码不一致')
+        return hashlib.md5(confirmPassWord)
+
+    def clean_confirm_password(self):
+        password = self.cleaned_data['password']
+        confirm_password = self.cleaned_data['confirm_password']
+
+    def clean_mobilePhone(self):
+        """
+        手机号校验钩子函数
+        """
+        mobilePhone = self.cleaned_data['mobilePhone']
+        # 判断手机号是否存在
+        exits = models.UserInfo.objects.filter(mobilePhone=mobilePhone).exists()
+        if exits:
+            raise ValidationError('手机号已经存在')
+        return mobilePhone
+
+    def clean_mail(self):
+        """
+        邮箱格式校验钩子函数
+        """
+        mail = self.cleaned_data['mail']
+        exists = models.UserInfo.objects.filter(mail=mail).exists()
+        if exists:
+            raise ValidationError('邮箱已存在')
+        return mail
 
 
 class SendSmsForm(forms.Form):

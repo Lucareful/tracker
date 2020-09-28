@@ -12,7 +12,13 @@ from web.forms.account import RegisterModelForm, SendSmsForm
 
 
 def register(request):
-    form = RegisterModelForm()
+    form = RegisterModelForm(request.POST)
+    if form.is_valid():
+        print(form.cleaned_data)
+    else:
+        print(form.errors)
+
+    print(request.POST)
 
     return render(request, 'register.html', {'form': form})
 
