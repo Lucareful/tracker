@@ -41,4 +41,3 @@ repos:
     rev: ''
     hooks:
     -   id: mypy
-        language_version: python3

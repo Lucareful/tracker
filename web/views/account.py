@@ -15,12 +15,10 @@ def register(request):
     form = RegisterModelForm(request.POST)
     if form.is_valid():
         print(form.cleaned_data)
-    else:
-        print(form.errors)
-
+        return render(request, 'register.html', {'form': form})
     print(request.POST)
 
-    return render(request, 'register.html', {'form': form})
+    return JsonResponse({'status': False, 'error': form.errors})
 
 
 def sendSms(request):

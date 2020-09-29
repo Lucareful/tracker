@@ -60,7 +60,7 @@ class RegisterModelForm(forms.ModelForm):
         """
         password = self.cleaned_data['password']
 
-        return hashlib.md5(password)
+        return hashlib.md5(password.encode('utf-8'))
 
     def clean_confirmPassWord(self):
         """
@@ -69,13 +69,9 @@ class RegisterModelForm(forms.ModelForm):
         password = self.cleaned_data['password']
         confirmPassWord = self.cleaned_data['confirmPassWord']
 
-        if password != hashlib.md5(confirmPassWord):
+        if password.hexdigest() != hashlib.md5(confirmPassWord.encode('utf-8')).hexdigest():
             raise ValidationError('两次密码不一致')
-        return hashlib.md5(confirmPassWord)
-
-    def clean_confirm_password(self):
-        password = self.cleaned_data['password']
-        confirm_password = self.cleaned_data['confirm_password']
+        return hashlib.md5(confirmPassWord.encode('utf-8'))
 
     def clean_mobilePhone(self):
         """
