@@ -24,7 +24,9 @@ sign = None
 redisPass = None
 
 # 短信模板
-Tenct_Sms_Template: dict = {}
+Tenct_Sms_Template: dict = {
+    'register': 713710,
+}
 
 # 导入自己的本地配置
 try:

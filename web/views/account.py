@@ -12,6 +12,10 @@ from web.forms.account import RegisterModelForm, SendSmsForm
 
 
 def register(request):
+    if request.method == 'GET':
+        form = RegisterModelForm()
+        return render(request, 'register.html', {'form': form})
+
     form = RegisterModelForm(request.POST)
     if form.is_valid():
         print(form.cleaned_data)
@@ -26,4 +30,4 @@ def sendSms(request):
     form = SendSmsForm(request, data=request.GET)
     if form.is_valid():
         return JsonResponse({'status': True})
-    return HttpResponse('成功')
+    return JsonResponse({'status': False, 'error': form.errors})

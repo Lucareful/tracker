@@ -98,13 +98,14 @@
 
                 // 获取用户输入的手机号
                 // 找到输入框的ID，根据ID获取值，如何找到手机号的那个ID？
-                var mobilePhone = $('#id_mobile_phone').val();
+                var mobilePhone = $('#id_mobilePhone').val();
+                console.log(mobilePhone);
 
                 // 发送ajax请求，把手机号发送过去
                 $.ajax({
                     url: "{% url 'send_sms' %}", // 等价于 /send/sms/
                     type: "GET",
-                    data: {mobile_phone: mobilePhone, tpl: "register"},
+                    data: {mobilePhone: mobilePhone, tpl: "register"},
                     dataType: "JSON", // 将服务端返回的数据反序列化为字典
                     success: function (res) {
                         // ajax请求发送成功之后，自动执行的函数； res就是后端返回的值

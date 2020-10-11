@@ -85,9 +85,9 @@ class sendMessage(object):
         return None
 
 
-if __name__ == '__main__':
-    res = sendMessage(apiId, apiKey, sign, smsAppId)
-    import random
-
-    code = random.randrange(10000, 99999)
-    res.send_message(['+8618305299746'], '713710', ['21378'])
+# if __name__ == '__main__':
+#     res = sendMessage(apiId, apiKey, sign, smsAppId)
+#     import random
+#
+#     code = random.randrange(10000, 99999)
+#     res.send_message(['+8618305299746'], '713710', ['21378'])

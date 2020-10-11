@@ -28,7 +28,7 @@ class RegisterModelForm(forms.ModelForm):
         label='确认密码',
         widget=forms.PasswordInput()
     )
-    mobilePhone = forms.CharField(label='手机号', validators=[RegexValidator(r'^[1]([3-9])[0-9]{9}$', '手机号格式错误'), ])
+    mobilePhone = forms.CharField(label='手机号', validators=[RegexValidator(r'^(1[3|4|5|6|7|8|9])\d{9}$', '手机号格式错误'), ])
     code = forms.CharField(
         label='验证码',
         widget=forms.TextInput()
@@ -99,7 +99,7 @@ class SendSmsForm(forms.Form):
     """
     发送短信
     """
-    mobilePhone = forms.CharField(label='手机号', validators=[RegexValidator(r'\d{3}-\d{8}|\d{4}-\d{7}', '手机号格式错误'), ])
+    mobilePhone = forms.CharField(label='手机号', validators=[RegexValidator(r'^(1[3|4|5|6|7|8|9])\d{9}$', '手机号格式错误'), ])
 
     def __init__(self, request, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -110,6 +110,11 @@ class SendSmsForm(forms.Form):
         手机号校验的钩子
         """
         mobilePhone = self.cleaned_data['mobilePhone']
+        print(mobilePhone)
+        # 判断手机号是否存在
+        exits = models.UserInfo.objects.filter(mobilePhone=mobilePhone).exists()
+        if exits:
+            raise ValidationError('手机号已经存在')
 
         # 判断短信模板是否存在
         tpl = self.request.GET.get('tpl')
@@ -117,12 +122,13 @@ class SendSmsForm(forms.Form):
         if not templateId:
             raise ValidationError('短信模板错误')
 
-        # 判断手机号是否存在
-        exits = models.UserInfo.objects.filter(mobilePhone=mobilePhone).exists()
-        if exits:
-            raise ValidationError('手机号已经存在')
-
         # 发送短信
         smsClient = sendMessage(apiId, apiKey, sign, smsAppId)
         code = random.randrange(10000, 99999)
-        sms = smsClient.send_message(['+86' + mobilePhone], templateId, [code])
+        if tpl == 'register':
+            sms = smsClient.send_message(['+86' + mobilePhone], '713710', ['32124'])
+        elif tpl == 'login':
+            sms = smsClient.send_message(['+86' + mobilePhone], '713711', ['19284', '1'])
+        else:
+            sms = smsClient.send_message(['+86' + mobilePhone], '713711', ['32435'])
+        return sms
