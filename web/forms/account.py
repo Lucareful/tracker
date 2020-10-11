@@ -9,12 +9,14 @@ import random
 import hashlib
 
 from django import forms
+from django_redis import get_redis_connection
 
 from tarcker import settings
 from web import models
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from utils.tencent.sendSms import sendMessage
+from utils import encrypt
 from tarcker.settings import apiId, apiKey
 from tarcker.settings import sign, smsAppId
 
@@ -60,18 +62,18 @@ class RegisterModelForm(forms.ModelForm):
         """
         password = self.cleaned_data['password']
 
-        return hashlib.md5(password.encode('utf-8'))
+        return encrypt.md5(password)
 
     def clean_confirmPassWord(self):
         """
         密码确认校验
         """
         password = self.cleaned_data['password']
-        confirmPassWord = self.cleaned_data['confirmPassWord']
+        confirmPassWord = encrypt.md5(self.cleaned_data['confirmPassWord'])
 
-        if password.hexdigest() != hashlib.md5(confirmPassWord.encode('utf-8')).hexdigest():
+        if password != confirmPassWord:
             raise ValidationError('两次密码不一致')
-        return hashlib.md5(confirmPassWord.encode('utf-8'))
+        return encrypt.md5(confirmPassWord)
 
     def clean_mobilePhone(self):
         """
@@ -93,6 +95,27 @@ class RegisterModelForm(forms.ModelForm):
         if exists:
             raise ValidationError('邮箱已存在')
         return mail
+
+    def clean_code(self):
+        code = self.cleaned_data['code']
+
+        # mobile_phone = self.cleaned_data['mobile_phone']
+
+        mobile_phone = self.cleaned_data.get('mobile_phone')
+        if not mobile_phone:
+            return code
+
+        conn = get_redis_connection()
+        redis_code = conn.get(mobile_phone)
+        if not redis_code:
+            raise ValidationError('验证码失效或未发送，请重新发送')
+
+        redis_str_code = redis_code.decode('utf-8')
+
+        if code.strip() != redis_str_code:
+            raise ValidationError('验证码错误，请重新输入')
+
+        return code
 
 
 class SendSmsForm(forms.Form):
@@ -124,11 +147,25 @@ class SendSmsForm(forms.Form):
 
         # 发送短信
         smsClient = sendMessage(apiId, apiKey, sign, smsAppId)
-        code = random.randrange(10000, 99999)
+        info = []
         if tpl == 'register':
             sms = smsClient.send_message(['+86' + mobilePhone], '713710', ['32124'])
+            info.append(sms.get('Code'))
+            info.append('713710')
         elif tpl == 'login':
             sms = smsClient.send_message(['+86' + mobilePhone], '713711', ['19284', '1'])
+            info.append(sms.get('Code'))
+            info.append('713710')
         else:
             sms = smsClient.send_message(['+86' + mobilePhone], '713711', ['32435'])
-        return sms
+            info.append(sms.get('Code'))
+            info.append('713710')
+        # 发送短信
+        if info[0] != 'Ok':
+            raise ValidationError(f'短信发送失败，{info[0]}')
+
+        # 验证码 写入redis（django-redis）
+        conn = get_redis_connection()
+        conn.set(mobilePhone, info[1], ex=60)
+
+        return mobilePhone

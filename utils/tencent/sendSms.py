@@ -5,6 +5,8 @@
 @file: sendSms.py
 @time: 9/7/2020 10:39 PM
 '''
+import json
+
 from tencentcloud.common import credential
 from tencentcloud.common.exception.tencent_cloud_sdk_exception import TencentCloudSDKException
 from tencentcloud.common.profile.client_profile import ClientProfile
@@ -80,9 +82,12 @@ class sendMessage(object):
             resp = client.SendSms(req)
             # 输出 JSON 格式的字符串回包
             print(resp.to_json_string(indent=2))
+            resp = json.loads(resp.to_json_string(indent=0).replace(r'\n', '')).get('SendStatusSet')[0]
+            return resp
         except TencentCloudSDKException as err:
             print(err)
-        return None
+            err = {key.capitalize(): value for key, value in err.__dict__.items()}
+            return err
 
 
 # if __name__ == '__main__':

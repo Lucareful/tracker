@@ -18,7 +18,9 @@ def register(request):
 
     form = RegisterModelForm(request.POST)
     if form.is_valid():
-        print(form.cleaned_data)
+        # print(form.cleaned_data)
+        # 通过验证，数据写入
+        instance = form.save()
         return render(request, 'register.html', {'form': form})
     print(request.POST)
 
