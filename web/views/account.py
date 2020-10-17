@@ -77,7 +77,7 @@ def login(request):
 
         user_object = (
             models.UserInfo.objects.filter(
-                Q(email=username) | Q(mobile_phone=username)
+                Q(mail=username) | Q(mobilePhone=username)
             )
             .filter(password=password)
             .first()
