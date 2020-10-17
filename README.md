@@ -31,3 +31,6 @@ CACHES = {
     }
 }
 ```
+## 登录，注册model开发完成
+
+![image-20201017134243289](https://gitee.com/luenci/RepoImg/raw/master/img/image-20201017134243289.png)
