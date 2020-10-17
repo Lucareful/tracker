@@ -5,13 +5,7 @@
 @file: account.py
 @time: 9/20/2020 5:11 PM
 """
-import random
-import hashlib
-from io import BytesIO
-
 from django import forms
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect, render
 from django_redis import get_redis_connection
 
 from tarcker import settings
