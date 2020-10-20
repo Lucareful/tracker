@@ -6,6 +6,8 @@
 @time: 9/18/2020 10:27 PM
 """
 from io import BytesIO
+import uuid
+import arrow
 from utils.ImgCode import check_code
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse
@@ -28,8 +30,19 @@ def register(request):
     form = RegisterModelForm(request.POST)
     if form.is_valid():
         # print(form.cleaned_data)
-        # 通过验证，数据写入
+        # 通过验证，数据写入(用户表中插入一条数据)
         instance = form.save()
+        # 创建免费的交易记录
+        policy_obj = models.PricePolicy.objects.filter(
+            category=1, title="个人免费版"
+        ).first()
+        models.Transaction.objects.create(
+            status=2,
+            order=str(uuid.uuid4()),
+            user=instance,
+            price_policy=policy_obj,
+            start_datetime=arrow.now(),
+        )
         return JsonResponse({"status": True, "data": "/login/"})
 
     return JsonResponse({"status": False, "error": form.errors})
