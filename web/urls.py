@@ -8,7 +8,7 @@
 
 from django.urls import path, include
 from django.conf.urls import url
-from web.views import account, home
+from web.views import account, home, project
 
 urlpatterns = [
     url(r"^register/$", account.register, name="register"),
@@ -19,5 +19,5 @@ urlpatterns = [
     url(r"^index/$", home.index, name="index"),
     url(r"^logout/$", account.logout, name="logout"),
     # 项目列表
-    # url(r'^project/list/$', project.project_list, name='project_list'),
+    url(r"^project/list/$", project.project_list, name="project_list"),
 ]
