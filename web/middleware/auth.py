@@ -7,7 +7,7 @@
 """
 from django.shortcuts import redirect
 from django.utils.deprecation import MiddlewareMixin
-
+from django.conf import settings
 from web import models
 
 
@@ -27,6 +27,10 @@ class AuthMiddleware(MiddlewareMixin):
         print("user_id:", user_id)
         user_obj = models.UserInfo.objects.filter(id=user_id).first()
         request.tracker = user_obj
+
+        # 获取url白名单,校验路由
+        if request.path_info in settings.WHITE_URL_LIST:
+            return None
 
         # 判断用户是否登录
         if not request.tracker:
