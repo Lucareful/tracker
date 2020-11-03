@@ -42,7 +42,7 @@ class PricePolicy(models.Model):
     )
 
     create_datetime = models.DateTimeField(
-        verbose_name="创建时间", auto_now_add=True
+        verbose_name="创建时间", auto_now_add=True, blank=True, null=True
     )
 
 
@@ -134,7 +134,7 @@ class ProjectUser(models.Model):
     star = models.BooleanField(verbose_name="星标", default=False)
 
     create_datetime = models.DateTimeField(
-        verbose_name="加入时间", auto_now_add=True
+        verbose_name="加入时间", auto_now_add=True, blank=True, null=True
     )
 
 

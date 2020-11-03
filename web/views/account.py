@@ -40,8 +40,10 @@ def register(request):
             status=2,
             order=str(uuid.uuid4()),
             user=instance,
+            count=0,
+            price=0,
             price_policy=policy_obj,
-            start_datetime=arrow.now(),
+            start_datetime=arrow.now().format(),
         )
         return JsonResponse({"status": True, "data": "/login/"})
 

@@ -134,7 +134,7 @@ CACHES = {
                 "max_connections": 100,
                 "encoding": "utf-8",
             },
-            "PASSWORD": redisPass,
+            "PASSWORD": "redisPass",
         },
     }
 }
