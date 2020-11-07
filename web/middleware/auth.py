@@ -30,13 +30,12 @@ class AuthMiddleware(MiddlewareMixin):
         :param request:
         :return:
         """
-        tracker = Tracker()
+
+        request.tracker = Tracker()
         user_id = request.session.get("user_id", 0)
         print("session:", request.session)
         print("user_id:", user_id)
         user_project = models.UserInfo.objects.filter(id=user_id).first()
-
-        request.tracker = tracker
 
         request.tracker.user = user_project
 
