@@ -43,3 +43,7 @@ django自定义中间件自定义的方法
 - 3.process_view:路由匹配成功执行视图函数之前,会依次process_view方法
 - 4.process_exception:视图函数中报错,会依次执行process_exception方法
 - 5.process_template_response:视图函数必须返回render对象时才会触发process_template_response方法
+
+## model关系可视化
+
+![models—table](my_project_visualized.png)

@@ -2,20 +2,47 @@
 # encoding: utf-8
 """
 @author: Luenci
-@file: project.py
+@file: .py
 @time: 10/24/2020 11:26 AM
 """
 
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
+
+from web import models
 from web.forms.project import ProjectModelForm
 
 
 def project_list(request):
     print(request.tracker.user)
     if request.method == "GET":
+        project_dict = {"star": [], "my": [], "join": []}
+        # 我创建的所有项目
+        my_project_list = models.Project.objects.filter(
+            creator=request.tracker.user
+        )
+        for row in my_project_list:
+            if row.star:
+                project_dict["star"].append(row)
+            else:
+                project_dict["my"].append(row)
+
+        # 我参与的所有项目
+        join_project_list = models.ProjectUser.objects.filter(
+            user=request.tracker.user
+        )
+        for item in join_project_list:
+            if item.star:
+                project_dict["star"].append(item.project)
+            else:
+                project_dict["my"].append(item.project)
+
         form = ProjectModelForm(request)
-        return render(request, "project_list.html", {"form": form})
+        return render(
+            request,
+            "project_list.html",
+            {"form": form, "project_dict": project_dict},
+        )
     form = ProjectModelForm(request, data=request.POST)
     if form.is_valid():
         # 将项目制定为当前登录的用户
