@@ -7,7 +7,7 @@
 """
 
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from web import models
 from web.forms.project import ProjectModelForm
@@ -23,7 +23,7 @@ def project_list(request):
         )
         for row in my_project_list:
             if row.star:
-                project_dict["star"].append(row)
+                project_dict["star"].append({"value": row, "type": "my"})
             else:
                 project_dict["my"].append(row)
 
@@ -33,7 +33,9 @@ def project_list(request):
         )
         for item in join_project_list:
             if item.star:
-                project_dict["star"].append(item.project)
+                project_dict["star"].append(
+                    {"value": item.project, "type": "join"}
+                )
             else:
                 project_dict["my"].append(item.project)
 
@@ -51,3 +53,47 @@ def project_list(request):
         form.save()
         return JsonResponse({"status": True})
     return JsonResponse({"status": False, "error": form.errors})
+
+
+def project_star(request, project_type, project_id):
+    """
+    星标项目
+    :param request:
+    :param project_type:
+    :param project_id:
+    :return:
+    """
+    if project_type == "my":
+        models.Project.objects.filter(
+            id=project_id, creator=request.tracker.user
+        ).update(star=True)
+        return redirect("project_list")
+    elif project_type == "join":
+        models.ProjectUser.objects.filter(
+            project_id=project_id, user=request.tracker.user
+        ).update(star=True)
+        return redirect("project_list")
+
+    return HttpResponse("请求错误")
+
+
+def project_unstar(request, project_type, project_id):
+    """
+    取消星标项目
+    :param request:
+    :param project_type:
+    :param project_id:
+    :return:
+    """
+    if project_type == "my":
+        models.Project.objects.filter(
+            id=project_id, creator=request.tracker.user
+        ).update(star=False)
+        return redirect("project_list")
+    elif project_type == "join":
+        models.ProjectUser.objects.filter(
+            project_id=project_id, user=request.tracker.user
+        ).update(star=False)
+        return redirect("project_list")
+
+    return HttpResponse("请求错误")
