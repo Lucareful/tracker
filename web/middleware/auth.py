@@ -61,3 +61,23 @@ class AuthMiddleware(MiddlewareMixin):
             ).first()
 
         request.tracker.price_policy = _object.price_policy
+
+    def process_view(self, request, view, args, kwargs):
+        """
+        判断路由是否是以 manage 开头
+        :param request:
+        :param view:
+        :param args:
+        :param kwargs:
+        :return:
+        """
+        if not request.path_info.startwith("/manage/"):
+            return
+        # print(view)
+        # print(args)
+        # print(kwargs)
+        project_id = kwargs.get("project_id")
+        user = request.tracker.user
+
+        # 是否是当前用户创建的项目
+        models.Project.objects.filter(creator=user, id=project_id)
