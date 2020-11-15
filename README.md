@@ -47,3 +47,5 @@ django自定义中间件自定义的方法
 ## model关系可视化
 
 ![models—table](my_project_visualized.png)
+
+## wiki编辑器
