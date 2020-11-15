@@ -8,7 +8,7 @@
 
 from django.urls import path, include
 from django.conf.urls import url
-from web.views import account, home, project, dashboard
+from web.views import account, home, project, dashboard, wiki
 
 urlpatterns = [
     url(r"^register/$", account.register, name="register"),
@@ -35,12 +35,22 @@ urlpatterns = [
         r"^manage/(?P<project_id>\d+)/",
         include(
             [
-                # url(r'^wiki/$', wiki.wiki, name='wiki'),
-                # url(r'^wiki/add/$', wiki.wiki_add, name='wiki_add'),
-                # url(r'^wiki/catalog/$', wiki.wiki_catalog, name='wiki_catalog'),
-                # url(r'^wiki/delete/(?P<wiki_id>\d+)/$', wiki.wiki_delete, name='wiki_delete'),
-                # url(r'^wiki/edit/(?P<wiki_id>\d+)/$', wiki.wiki_edit, name='wiki_edit'),
-                # url(r'^wiki/upload/$', wiki.wiki_upload, name='wiki_upload'),
+                url(r"^wiki/$", wiki.wiki, name="wiki"),
+                url(r"^wiki/add/$", wiki.wiki_add, name="wiki_add"),
+                url(
+                    r"^wiki/catalog/$", wiki.wiki_catalog, name="wiki_catalog"
+                ),
+                url(
+                    r"^wiki/delete/(?P<wiki_id>\d+)/$",
+                    wiki.wiki_delete,
+                    name="wiki_delete",
+                ),
+                url(
+                    r"^wiki/edit/(?P<wiki_id>\d+)/$",
+                    wiki.wiki_edit,
+                    name="wiki_edit",
+                ),
+                url(r"^wiki/upload/$", wiki.wiki_upload, name="wiki_upload"),
                 # url(r'^file/$', file.file, name='file'),
                 # url(r'^file/delete/$', file.file_delete, name='file_delete'),
                 # url(r'^cos/credential/$', file.cos_credential, name='cos_credential'),

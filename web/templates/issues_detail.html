@@ -305,9 +305,9 @@
     <script src="{% static 'plugin/bootstrap-select/js/bootstrap-select.min.js' %}"></script>
     <script src="{% static 'plugin/bootstrap-select/js/i18n/defaults-zh_CN.min.js' %}"></script>
     <script>
-        var WIKI_UPLOAD_URL = "{% url 'wiki_upload' project_id=request.tracer.project.id %}";
-        var ISSUES_RECORD_API = "{% url 'issues_record' project_id=request.tracer.project.id issues_id=issues_object.id %}";
-        var ISSUES_CHANGE_API = "{% url 'issues_change' project_id=request.tracer.project.id issues_id=issues_object.id %}";
+        var WIKI_UPLOAD_URL = "{% url 'wiki_upload' project_id=request.tracker.project.id %}";
+        var ISSUES_RECORD_API = "{% url 'issues_record' project_id=request.tracker.project.id issues_id=issues_object.id %}";
+        var ISSUES_CHANGE_API = "{% url 'issues_change' project_id=request.tracker.project.id issues_id=issues_object.id %}";
         var EDITOR;
 
         $(function () {

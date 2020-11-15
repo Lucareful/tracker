@@ -15,3 +15,6 @@ local_settings.py
 # database migrattions
 */migrations/*.py
 !*/migrations/__init__.py
+
+# 忽略数据库
+db.sqlite3

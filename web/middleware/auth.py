@@ -71,7 +71,7 @@ class AuthMiddleware(MiddlewareMixin):
         :param kwargs:
         :return:
         """
-        if not request.path_info.startwith("/manage/"):
+        if not request.path_info.startswith("/manage/"):
             return
         # print(view)
         # print(args)
@@ -80,4 +80,21 @@ class AuthMiddleware(MiddlewareMixin):
         user = request.tracker.user
 
         # 是否是当前用户创建的项目
-        models.Project.objects.filter(creator=user, id=project_id)
+        project_object = models.Project.objects.filter(
+            creator=user, id=project_id
+        ).first()
+        if project_object:
+            # 是我创建的项目的话，我就让他通过
+            request.tracker.project = project_object
+            return None
+
+        # 是否是我参与的项目
+        project_user_object = models.ProjectUser.objects.filter(
+            user=user, project_id=project_id
+        ).first()
+        if project_user_object:
+            # 是我参与的项目
+            request.tracker.project = project_user_object.project
+            return None
+
+        return redirect("project_list")
