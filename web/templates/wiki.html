@@ -50,16 +50,16 @@
                 </div>
                 <div class="function">
                     <a type="button" class="btn btn-success btn-xs"
-                       href="{% url 'wiki_add' project_id=request.tracer.project.id %}">
+                       href="{% url 'wiki_add' project_id=request.tracker.project.id %}">
                         <i class="fa fa-plus-circle" aria-hidden="true"></i> 新建
                     </a>
                     {% if wiki_object %}
                         <a type="button" class="btn btn-primary btn-xs"
-                           href="{% url 'wiki_edit' project_id=request.tracer.project.id  wiki_id=wiki_object.id %}">
+                           href="{% url 'wiki_edit' project_id=request.tracker.project.id  wiki_id=wiki_object.id %}">
                             <i class="fa fa-edit" aria-hidden="true"></i> 编辑
                         </a>
                         <a type="button" class="btn btn-danger btn-xs"
-                           href="{% url 'wiki_delete' project_id=request.tracer.project.id wiki_id=wiki_object.id %} ">
+                           href="{% url 'wiki_delete' project_id=request.tracker.project.id wiki_id=wiki_object.id %} ">
                             <i class="fa fa-trash" aria-hidden="true"></i> 删除
                         </a>
                     {% endif %}
@@ -79,8 +79,8 @@
                         </div>
                     {% else %}
                         <div style="text-align: center;margin-top: 50px;">
-                            <h4> 《{{ request.tracer.project.name }}》wiki文档库 </h4>
-                            <a href="{% url 'wiki_add' project_id=request.tracer.project.id %}">
+                            <h4> 《{{ request.tracker.project.name }}》wiki文档库 </h4>
+                            <a href="{% url 'wiki_add' project_id=request.tracker.project.id %}">
                                 <i class="fa fa-plus-circle" aria-hidden="true"></i> 新建文章
                             </a>
                         </div>
@@ -108,7 +108,7 @@
     <script>
 
         // http://127.0.0.1:8002/manage/2/wiki/detail/
-        var WIKI_DETAIL_URL = "{% url 'wiki' project_id=request.tracer.project.id %}";
+        var WIKI_DETAIL_URL = "{% url 'wiki' project_id=request.tracker.project.id %}";
 
         $(function () {
 
@@ -125,7 +125,7 @@
         }
         function initCatalog() {
             $.ajax({
-                url: "{% url 'wiki_catalog' project_id=request.tracer.project.id %}",
+                url: "{% url 'wiki_catalog' project_id=request.tracker.project.id %}",
                 type: "GET",
                 dataType: "JSON",
                 success: function (res) {

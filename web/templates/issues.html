@@ -112,12 +112,12 @@
                             <td class="number">
                                 <i class="fa fa-circle text-{{ item.priority }}"></i>
                                 <a target="_blank"
-                                   href="{% url 'issues_detail' project_id=request.tracer.project.id issues_id=item.id %}">{% string_just item.id %}</a>
+                                   href="{% url 'issues_detail' project_id=request.tracker.project.id issues_id=item.id %}">{% string_just item.id %}</a>
                             </td>
                             <td class="issue">
                                 <div>
                                     <a target="_blank"
-                                       href="{% url 'issues_detail' project_id=request.tracer.project.id issues_id=item.id %}">{{ item.subject }}</a>
+                                       href="{% url 'issues_detail' project_id=request.tracker.project.id issues_id=item.id %}">{{ item.subject }}</a>
                                 </div>
                                 <div class="tags">
                                     <span class="type">
@@ -393,9 +393,9 @@
     <script src="{% static 'plugin/select2/js/i18n/zh-CN.js' %}"></script>
 
     <script>
-        var WIKI_UPLOAD_URL = "{% url 'wiki_upload' project_id=request.tracer.project.id %}";
-        var POST_ISSUES = "{% url 'issues' project_id=request.tracer.project.id %}";
-        var INVITE_URL = "{% url 'invite_url' project_id=request.tracer.project.id %}";
+        var WIKI_UPLOAD_URL = "{% url 'wiki_upload' project_id=request.tracker.project.id %}";
+        var POST_ISSUES = "{% url 'issues' project_id=request.tracker.project.id %}";
+        var INVITE_URL = "{% url 'invite_url' project_id=request.tracker.project.id %}";
 
         $(function () {
             bindBootStrapShownEvent();

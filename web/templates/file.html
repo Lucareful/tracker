@@ -50,12 +50,12 @@
             <!-- Default panel contents -->
             <div class="panel-heading">
                 <div>
-                    <a href="{% url 'file' project_id=request.tracer.project.id %}">
+                    <a href="{% url 'file' project_id=request.tracker.project.id %}">
                         <i class="fa fa-home" aria-hidden="true"></i>
                         <span>文件库</span>
                     </a>
                     {% for record in breadcrumb_list %}
-                        <a href="{% url 'file' project_id=request.tracer.project.id %}?folder={{ record.id }}">
+                        <a href="{% url 'file' project_id=request.tracker.project.id %}?folder={{ record.id }}">
                             <i class="fa fa-caret-right" aria-hidden="true"></i>
                             <span>{{ record.name }}</span>
                         </a>
@@ -90,7 +90,7 @@
                                 <i class="fa fa-file" aria-hidden="true"></i>
                                 {{ item.name }}
                             {% else %}
-                                <a href="{% url 'file' project_id=request.tracer.project.id %}?folder={{ item.id }}">
+                                <a href="{% url 'file' project_id=request.tracker.project.id %}?folder={{ item.id }}">
                                     <i class="fa fa-folder" aria-hidden="true"></i>
                                     {{ item.name }}
                                 </a>
@@ -117,7 +117,7 @@
                                 </a>
                             {% else %}
                                 <a class="btn btn-default btn-xs"
-                                   href="{% url 'file_download' project_id=request.tracer.project.id file_id=item.id %}">
+                                   href="{% url 'file_download' project_id=request.tracker.project.id file_id=item.id %}">
                                     <i class="fa fa-cloud-download" aria-hidden="true"></i>
                                 </a>
                             {% endif %}
@@ -244,10 +244,10 @@
 {% block js %}
     <script src="{% static 'js/cos-js-sdk-v5.min.js' %}"></script>
     <script>
-        var FOLDER_URL = "{% url 'file' project_id=request.tracer.project.id %}";
-        var FILE_DELETE_URL = "{% url 'file_delete' project_id=request.tracer.project.id %}";
-        var COS_CREDENTIAL = "{% url 'cos_credential' project_id=request.tracer.project.id %}";
-        var FILE_POST = "{% url 'file_post' project_id=request.tracer.project.id %}";
+        var FOLDER_URL = "{% url 'file' project_id=request.tracker.project.id %}";
+        var FILE_DELETE_URL = "{% url 'file_delete' project_id=request.tracker.project.id %}";
+        var COS_CREDENTIAL = "{% url 'cos_credential' project_id=request.tracker.project.id %}";
+        var FILE_POST = "{% url 'file_post' project_id=request.tracker.project.id %}";
         var CURRENT_FOLDER_ID = "{{ folder_object.id }}";
 
         $(function () {
@@ -302,8 +302,8 @@
 
                     // 上传文件（异步）
                     cos_credential.putObject({
-                        Bucket: '{{ request.tracer.project.bucket }}', /* 必须 */
-                        Region: '{{ request.tracer.project.region }}', /* 存储桶所在地域，必须字段 */
+                        Bucket: '{{ request.tracker.project.bucket }}', /* 必须 */
+                        Region: '{{ request.tracker.project.region }}', /* 存储桶所在地域，必须字段 */
                         Key: key, /* 必须 */
                         Body: fileObject, // 上传文件对象
                         onProgress: function (progressData) {
