@@ -144,7 +144,7 @@ class Wiki(models.Model):
     )
     title = models.CharField(verbose_name="标题", max_length=32)
     content = models.TextField(verbose_name="内容")
-
+    # 文章的深度
     depth = models.IntegerField(verbose_name="深度", default=1)
 
     # 子关联

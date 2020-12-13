@@ -29,42 +29,42 @@ def all_project_list(request):
 @register.inclusion_tag("inclusion/manage_menu_list.html")
 def manage_menu_list(request):
     data_list = [
-        {
-            "title": "概览",
-            "url": reverse(
-                "dashboard", kwargs={"project_id": request.tracker.project.id}
-            ),
-        },
-        {
-            "title": "问题",
-            "url": reverse(
-                "issues", kwargs={"project_id": request.tracker.project.id}
-            ),
-        },
-        {
-            "title": "统计",
-            "url": reverse(
-                "statistics", kwargs={"project_id": request.tracker.project.id}
-            ),
-        },
+        # {
+        #     "title": "概览",
+        #     "url": reverse(
+        #         "dashboard", kwargs={"project_id": request.tracker.project.id}
+        #     ),
+        # },
+        # {
+        #     "title": "问题",
+        #     "url": reverse(
+        #         "issues", kwargs={"project_id": request.tracker.project.id}
+        #     ),
+        # },
+        # {
+        #     "title": "统计",
+        #     "url": reverse(
+        #         "statistics", kwargs={"project_id": request.tracker.project.id}
+        #     ),
+        # },
         {
             "title": "wiki",
             "url": reverse(
                 "wiki", kwargs={"project_id": request.tracker.project.id}
             ),
         },
-        {
-            "title": "文件",
-            "url": reverse(
-                "file", kwargs={"project_id": request.tracker.project.id}
-            ),
-        },
-        {
-            "title": "配置",
-            "url": reverse(
-                "setting", kwargs={"project_id": request.tracker.project.id}
-            ),
-        },
+        # {
+        #     "title": "文件",
+        #     "url": reverse(
+        #         "file", kwargs={"project_id": request.tracker.project.id}
+        #     ),
+        # },
+        # {
+        #     "title": "配置",
+        #     "url": reverse(
+        #         "setting", kwargs={"project_id": request.tracker.project.id}
+        #     ),
+        # },
     ]
 
     for item in data_list:

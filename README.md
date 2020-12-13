@@ -49,3 +49,8 @@ django自定义中间件自定义的方法
 ![models—table](my_project_visualized.png)
 
 ## wiki编辑器
+
+- 富文本编辑器:ckeditor
+- markdown编辑器:mdeditor
+
+- 使用了editor编辑器，github地址：https://github.com/pandao/editor.md
