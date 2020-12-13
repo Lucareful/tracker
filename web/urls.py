@@ -50,7 +50,7 @@ urlpatterns = [
                     wiki.wiki_edit,
                     name="wiki_edit",
                 ),
-                url(r"^wiki/upload/$", wiki.wiki_upload, name="wiki_upload"),
+                # url(r"^wiki/upload/$", wiki.wiki_upload, name="wiki_upload"),
                 # url(r'^file/$', file.file, name='file'),
                 # url(r'^file/delete/$', file.file_delete, name='file_delete'),
                 # url(r'^cos/credential/$', file.cos_credential, name='cos_credential'),
@@ -64,7 +64,11 @@ urlpatterns = [
                 # url(r'^issues/change/(?P<issues_id>\d+)/$', issues.issues_change, name='issues_change'),
                 # url(r'^issues/invite/url/$', issues.invite_url, name='invite_url'),
                 url(r"^dashboard/$", dashboard.dashboard, name="dashboard"),
-                # url(r'^dashboard/issues/chart/$', dashboard.issues_chart, name='issues_chart'),
+                url(
+                    r"^dashboard/issues/chart/$",
+                    dashboard.issues_chart,
+                    name="issues_chart",
+                ),
                 # url(r'^statistics/$', statistics.statistics, name='statistics'),
                 # url(r'^statistics/priority/$', statistics.statistics_priority, name='statistics_priority'),
                 # url(r'^statistics/project/user/$', statistics.statistics_project_user, name='statistics_project_user')

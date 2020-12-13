@@ -53,7 +53,7 @@
                 </div>
                 <div class="function">
                     <a type="button" class="btn btn-success btn-xs"
-                       href="{% url 'wiki_add' project_id=request.tracer.project.id %}">
+                       href="{% url 'wiki_add' project_id=request.tracker.project.id %}">
                         <i class="fa fa-plus-circle" aria-hidden="true"></i> 新建
                     </a>
                 </div>
@@ -103,8 +103,8 @@
     <script>
 
         // http://127.0.0.1:8002/manage/2/wiki/detail/
-        var WIKI_DETAIL_URL = "{% url 'wiki' project_id=request.tracer.project.id %}";
-        var WIKI_UPLOAD_URL = "{% url 'wiki_upload' project_id=request.tracer.project.id %}";
+        var WIKI_DETAIL_URL = "{% url 'wiki' project_id=request.tracker.project.id %}";
+        var WIKI_UPLOAD_URL = "{% url 'wiki_upload' project_id=request.tracker.project.id %}";
 
         $(function () {
 
@@ -129,7 +129,7 @@
 
         function initCatalog() {
             $.ajax({
-                url: "{% url 'wiki_catalog' project_id=request.tracer.project.id %}",
+                url: "{% url 'wiki_catalog' project_id=request.tracker.project.id %}",
                 type: "GET",
                 dataType: "JSON",
                 success: function (res) {
