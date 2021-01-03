@@ -8,7 +8,7 @@
 
 from django.urls import path, include
 from django.conf.urls import url
-from web.views import account, home, project, dashboard, wiki
+from web.views import account, home, project, dashboard, wiki, file
 
 urlpatterns = [
     url(r"^register/$", account.register, name="register"),
@@ -50,8 +50,8 @@ urlpatterns = [
                     wiki.wiki_edit,
                     name="wiki_edit",
                 ),
-                # url(r"^wiki/upload/$", wiki.wiki_upload, name="wiki_upload"),
-                # url(r'^file/$', file.file, name='file'),
+                url(r"^wiki/upload/$", wiki.wiki_upload, name="wiki_upload"),
+                url(r"^file/$", file.file, name="file"),
                 # url(r'^file/delete/$', file.file_delete, name='file_delete'),
                 # url(r'^cos/credential/$', file.cos_credential, name='cos_credential'),
                 # url(r'^file/post/$', file.file_post, name='file_post'),
