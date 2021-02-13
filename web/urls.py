@@ -7,8 +7,9 @@
 """
 
 from django.urls import path, include
+
 from django.conf.urls import url
-from web.views import account, home, project, dashboard, wiki, file
+from web.views import *
 
 urlpatterns = [
     url(r"^register/$", account.register, name="register"),
@@ -52,26 +53,62 @@ urlpatterns = [
                 ),
                 url(r"^wiki/upload/$", wiki.wiki_upload, name="wiki_upload"),
                 url(r"^file/$", file.file, name="file"),
-                # url(r'^file/delete/$', file.file_delete, name='file_delete'),
-                # url(r'^cos/credential/$', file.cos_credential, name='cos_credential'),
-                # url(r'^file/post/$', file.file_post, name='file_post'),
-                # url(r'^file/download/(?P<file_id>\d+)/$', file.file_download, name='file_download'),
-                # url(r'^setting/$', setting.setting, name='setting'),
-                # url(r'^setting/delete/$', setting.delete, name='setting_delete'),
-                # url(r'^issues/$', issues.issues, name='issues'),
-                # url(r'^issues/detail/(?P<issues_id>\d+)/$', issues.issues_detail, name='issues_detail'),
-                # url(r'^issues/record/(?P<issues_id>\d+)/$', issues.issues_record, name='issues_record'),
-                # url(r'^issues/change/(?P<issues_id>\d+)/$', issues.issues_change, name='issues_change'),
-                # url(r'^issues/invite/url/$', issues.invite_url, name='invite_url'),
+                url(r"^file/delete/$", file.file_delete, name="file_delete"),
+                url(
+                    r"^cos/credential/$",
+                    file.cos_credential,
+                    name="cos_credential",
+                ),
+                url(r"^file/post/$", file.file_post, name="file_post"),
+                url(
+                    r"^file/download/(?P<file_id>\d+)/$",
+                    file.file_download,
+                    name="file_download",
+                ),
+                url(r"^setting/$", setting.setting, name="setting"),
+                url(
+                    r"^setting/delete/$", setting.delete, name="setting_delete"
+                ),
+                url(r"^issues/$", issues.issues, name="issues"),
+                url(
+                    r"^issues/detail/(?P<issues_id>\d+)/$",
+                    issues.issues_detail,
+                    name="issues_detail",
+                ),
+                url(
+                    r"^issues/record/(?P<issues_id>\d+)/$",
+                    issues.issues_record,
+                    name="issues_record",
+                ),
+                url(
+                    r"^issues/change/(?P<issues_id>\d+)/$",
+                    issues.issues_change,
+                    name="issues_change",
+                ),
+                url(
+                    r"^issues/invite/url/$",
+                    issues.invite_url,
+                    name="invite_url",
+                ),
                 url(r"^dashboard/$", dashboard.dashboard, name="dashboard"),
                 url(
                     r"^dashboard/issues/chart/$",
                     dashboard.issues_chart,
                     name="issues_chart",
                 ),
-                # url(r'^statistics/$', statistics.statistics, name='statistics'),
-                # url(r'^statistics/priority/$', statistics.statistics_priority, name='statistics_priority'),
-                # url(r'^statistics/project/user/$', statistics.statistics_project_user, name='statistics_project_user')
+                url(
+                    r"^statistics/$", statistics.statistics, name="statistics"
+                ),
+                url(
+                    r"^statistics/priority/$",
+                    statistics.statistics_priority,
+                    name="statistics_priority",
+                ),
+                url(
+                    r"^statistics/project/user/$",
+                    statistics.statistics_project_user,
+                    name="statistics_project_user",
+                ),
             ],
             None,
         ),

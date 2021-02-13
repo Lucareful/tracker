@@ -263,14 +263,14 @@ def file_download(request, project_id, file_id):
     ).first()
     res = requests.get(file_object.file_path)
 
-    # 文件分块处理（适用于大文件）     @孙歆尧
+    # 文件分块处理（适用于大文件）
     data = res.iter_content()
 
-    # 设置content_type=application/octet-stream 用于提示下载框        @孙歆尧
+    # 设置content_type=application/octet-stream 用于提示下载框
     response = HttpResponse(data, content_type="application/octet-stream")
     from django.utils.encoding import escape_uri_path
 
-    # 设置响应头：中文件文件名转义      @王洋
+    # 设置响应头：中文件文件名转义
     response["Content-Disposition"] = "attachment; filename={};".format(
         escape_uri_path(file_object.name)
     )
